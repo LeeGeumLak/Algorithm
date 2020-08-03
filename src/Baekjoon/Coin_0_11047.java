@@ -18,30 +18,16 @@ public class Coin_0_11047 {
             coinValueArray[i] = inputParameter.nextInt();
         }
 
-
         System.out.println( calMinCoinNum(coinTypeNum, valueAmount, coinValueArray) );
     }
 
     public static int calMinCoinNum(int coinTypeNum, int valueAmount, int[] coinValueArray) {
         int minCoinNum = 0;
-        int maxIndex = coinTypeNum;
 
-        for(int i = 0; i < coinTypeNum; i++) {
-            if(coinValueArray[i] > valueAmount) {
-                maxIndex = i-1;
-
-                if(maxIndex < 0) {
-                    System.exit(0);
-                }
-
-                break;
-            }
-        }
-
-        for(int i = maxIndex; i >= 0; i--) {
-            while(valueAmount >= coinValueArray[i]) {
-                minCoinNum++;
-                valueAmount -= coinValueArray[i];
+        for(int i = coinTypeNum - 1; i >= 0; i--) {
+            if(valueAmount >= coinValueArray[i]) {
+                minCoinNum += valueAmount / coinValueArray[i];
+                valueAmount = valueAmount % coinValueArray[i];
             }
         }
 
