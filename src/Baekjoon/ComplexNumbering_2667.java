@@ -36,12 +36,13 @@ public class ComplexNumbering_2667 {
         }*/
 
         for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++)
-                if(map[i][j] == 1 && visited[i][j] == 0) {
+            for(int j = 0; j < N; j++) {
+                if (map[i][j] == 1 && visited[i][j] == 0) {
                     count = 1;
                     bfs(i, j);
                     complexList.add(count);
                 }
+            }
         }
 
         Collections.sort(complexList); // 오름차순 정렬
@@ -54,7 +55,7 @@ public class ComplexNumbering_2667 {
 
     }
 
-    public static int bfs(int x, int y) {
+    public static void bfs(int x, int y) {
         visited[x][y] = 1;
 
         for(int i = 0; i < 4; i++)
@@ -63,13 +64,11 @@ public class ComplexNumbering_2667 {
             int ny = y + dy[i];
 
             if(nx>=0 && ny>=0 && nx<N && ny<N) {
-                if(map[nx][ny] == 1 && visited[nx][ny] == 0)
-                {
+                if(map[nx][ny] == 1 && visited[nx][ny] == 0) {
                     bfs(nx, ny);
                     count++;
                 }
             }
         }
-        return count;
     }
 }
