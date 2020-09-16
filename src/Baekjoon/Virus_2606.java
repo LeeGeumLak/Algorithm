@@ -27,6 +27,7 @@ public class Virus_2606 {
         bfs(1);
     }
 
+
     public static void bfs(int start) {
         Queue<Integer> queue = new LinkedList<Integer>();
 
