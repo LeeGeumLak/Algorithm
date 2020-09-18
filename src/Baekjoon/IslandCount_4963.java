@@ -15,22 +15,22 @@ class Pairs {
 }
 
 public class IslandCount_4963 {
-    // 지도 너비, 지도 높이, bfs 결과값
-    static int w, h, islandCount = 0;
-
-    // 동서남북
+    // 이동가능 방향 (동.서.남.북.대각선)
     static int[] dx = { 0, 0, 1, -1, 1, -1, 1, -1 };
     static int[] dy = { -1, 1, 0, 0, -1, 1, 1, -1 };
 
-    // 각 테스트 케이스의 결과값인 islandCount 값을 저장할 리스트
-    static LinkedList<Integer> countBuffer = new LinkedList<>();
-    
+    // 입력받을 지도 배열
     static int[][] map;
     
     // 방문여부 체크 배열
     static int[][] checkVisited;
 
     public static void main(String[] args) {
+        int w, h; // 지도 너비, 높이
+
+        // 각 테스트 케이스의 결과값인 islandCount 값을 저장할 리스트
+        LinkedList<Integer> countBuffer = new LinkedList<>();
+
         Scanner inputParameter = new Scanner(System.in);
 
         boolean quit = false; // while문 탈출 조건 변수
@@ -71,33 +71,31 @@ public class IslandCount_4963 {
                     }
                 }
 
-                int count = 0;
+                int islandCount = 0;
                 checkVisited = new int[h][w];
 
                 for (int i = 0; i < h; i++) {
                     for (int j = 0; j < w; j++) {
-                        if (map[i][j] == 1 && checkVisited[i][j] == 0)
-                            // dfs(i, j, ++count, w, h);
-                            bfs(i, j, ++count, w, h);
+                        if (map[i][j] == 1 && checkVisited[i][j] == 0) {
+                            bfs(i, j, ++islandCount, w, h);
+                        }
                     }
                 }
 
                 countBuffer.add(islandCount);
             }
-
-            islandCount = 0;
         }
 
         // 저장된 결과값 출력
-        for(int i : countBuffer) {
+        for(Integer i : countBuffer) {
             System.out.println(i);
         }
     }
     
-    public static void bfs(int x, int y, int count, int w, int h) {
+    public static void bfs(int x, int y, int islandCount, int w, int h) {
         Queue<Pairs> queue = new LinkedList<Pairs>();
         queue.add(new Pairs(x, y));
-        checkVisited[x][y] = count;
+        checkVisited[x][y] = islandCount;
         while (!queue.isEmpty()) {
             Pairs p = queue.remove();
             x = p.x;
@@ -107,7 +105,7 @@ public class IslandCount_4963 {
                 int ny = y + dy[i];
                 if (0 <= nx && nx < h && 0 <= ny && ny < w) {
                     if (map[nx][ny] == 1 && checkVisited[nx][ny] == 0)
-                        bfs(nx, ny, count, w, h);
+                        bfs(nx, ny, islandCount, w, h);
                 }
             }
         }
