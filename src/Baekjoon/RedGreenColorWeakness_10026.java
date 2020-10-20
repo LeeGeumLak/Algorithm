@@ -4,102 +4,96 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-class Point{
-    int y;
+class point {
     int x;
-    Point(int y, int x){
-        this.y = y;
-        this.x = x;
+    int y;
 
+    public point(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }
 
 public class RedGreenColorWeakness_10026 {
-    static int[] dx = {0,1,0,-1};
-    static int[] dy = {-1,0,1,0};
+    static int n;
 
-    static boolean[][] checkVisited;
+    static char[][] map;
+    static boolean[][] visited;
 
-    static int N;
+    static int[] dx = {-1,1,0,0};
+    static int[] dy = {0,0,-1,1};
 
-    public static void main(String[] args) {
+    static int colorNormal = 0;
+    static int colorWeakness = 0;
+
+    static Queue<point> q = new LinkedList<point>();
+
+    public static void main(String[] args) throws Exception{
         Scanner inputParameter = new Scanner(System.in);
 
-        N = inputParameter.nextInt();
+        n = Integer.parseInt(inputParameter.nextLine());
 
-        char[][] gridNormal = new char[N][N];
-        char[][] gridWeakness = new char[N][N];
+        map = new char[n][n];
+        visited = new boolean[n][n];
 
-        checkVisited = new boolean[N][N];
+        for(int i = 0; i < n; i++) {
+            char[] str = inputParameter.nextLine().toCharArray();
+            for(int j = 0; j < n; j++) {
+                map[i][j] = str[j];
+            }
+        }
 
-        int normalCount = 0;
-        int weaknessCount = 0;
-
-        // 입력 버퍼 비움
-        inputParameter.nextLine();
-
-        // 그리드 초기화
-        for(int i = 0; i < N; i++) {
-            String RGBString = inputParameter.nextLine();
-            for(int j = 0; j < N; j++) {
-                char RGBChar = RGBString.charAt(j);
-                if(RGBChar=='G') {
-                    gridNormal[i][j] = RGBChar;
-                    gridWeakness[i][j] = 'R';
-                }else {
-                    gridNormal[i][j] = RGBChar;
-                    gridWeakness[i][j] = RGBChar;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(!visited[i][j]) {
+                    bfs(new point(i,j));
+                    colorNormal++;
                 }
             }
         }
 
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                if(!checkVisited[i][j]) {
-                    bfs(i, j, gridNormal);
-                    normalCount++;
+        //다시 bfs를 해야 하므로, visited 초기화 ('R'을 'G'로 전환)
+        visited = new boolean[n][n];
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(map[i][j] == 'R') {
+                    map[i][j] = 'G';
                 }
             }
         }
 
-        // 방문 체크 배열 초기화
-        checkVisited = new boolean[N][N];
-
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                if(!checkVisited[i][j]) {
-                    bfs(i, j, gridWeakness);
-                    weaknessCount++;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(!visited[i][j]) {
+                    bfs(new point(i,j));
+                    colorWeakness++;
                 }
             }
         }
 
-        System.out.println(normalCount + " " + weaknessCount);
+        System.out.println(colorNormal + " " + colorWeakness);
     }
 
-    public static void bfs(int i, int j, char[][] grid) {
-        Queue<Point> queue = new LinkedList<Point>();
-        char ch = grid[i][j];
+    static void bfs(point d) {
+        char color = map[d.x][d.y];
+        visited[d.x][d.y] = true;
+        q.add(d);
 
-        queue.add(new Point(j,i));
+        while(!q.isEmpty()) {
+            point t = q.remove();
+            int x1 = t.x;
+            int y1 = t.y;
 
-        checkVisited[i][j] = true;
+            for(int i=0; i<4; i++) {
+                int x2 = x1 + dx[i];
+                int y2 = y1 + dy[i];
 
-        while(!queue.isEmpty()) {
-            Point p = queue.poll();
-            int x = p.x;
-            int y = p.y;
-
-            for(int k = 0; k < 4; k++) {
-                int nx = x + dx[k];
-                int ny = y + dy[k];
-
-                if(0 <= nx && nx < N && 0 <= ny && ny < N && !checkVisited[ny][nx]) {
-                    if(!checkVisited[ny][nx] && grid[ny][nx] == ch) {
-                        checkVisited[ny][nx] = true;
-                        queue.add(new Point(nx, ny));
-                    }
+                if(x2>=0 && x2<n && y2>=0 && y2<n && map[x2][y2] == color && !visited[x2][y2]) {
+                    q.add(new point(x2,y2));
+                    visited[x2][y2] = true;
                 }
+
             }
         }
     }
