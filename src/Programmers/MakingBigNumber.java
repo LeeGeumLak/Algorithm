@@ -1,5 +1,7 @@
 package Programmers;
 
+import java.util.Stack;
+
 public class MakingBigNumber {
     public String solution(String number, int k) {
         // 어떤 숫자에서 k개의 수를 제거했을 때의 가장 큰 수 구하기
@@ -45,6 +47,6 @@ public class MakingBigNumber {
             result[i] = stack.get(i);
         }
         return new String(result);
-         */
+        */
     }
 }
