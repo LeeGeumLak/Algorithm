@@ -1,14 +1,12 @@
 package Programmers;
 
 public class TriangleSnail {
-    // 실행시간이 너무 오래 걸림
-    /*
     public static int calculateTotalSum(int n) {
         if (n <= 1) {
             return n;
         }
         else {
-            return calculateTotalSum(n - 1) * n;
+            return calculateTotalSum(n - 1) +    n;
         }
     }
 
@@ -62,15 +60,6 @@ public class TriangleSnail {
                 answer[k++] = triangleArray[i][j];
             }
         }
-
-        return answer;
-    }
-    */
-
-    public int[] solution(int n) {
-        int[] answer = {};
-
-
 
         return answer;
     }
