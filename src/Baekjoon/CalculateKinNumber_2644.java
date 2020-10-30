@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // dfs
-public class CalculateKinNumber {
+public class CalculateKinNumber_2644 {
     static int n, m;
     static int kinA, kinB;
     static int answer = -1;
