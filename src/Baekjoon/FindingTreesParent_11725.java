@@ -3,7 +3,7 @@ package Baekjoon;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class FindingTreesParent {
+public class FindingTreesParent_11725 {
     static int N;
     static ArrayList<Integer>[] tree;
     static int[] nodesParent;
